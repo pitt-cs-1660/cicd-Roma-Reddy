@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - '**'
-
 jobs:
   docker-check:
     runs-on: ubuntu-latest
@@ -42,7 +41,6 @@ jobs:
           else
             echo "✅ WORKDIR is set to '/app'"
           fi
-
   integration-test:
     timeout-minutes: 10
     name: integration tests
@@ -57,7 +55,6 @@ jobs:
           ./tests/api_tests.sh
       - name: Docker compose down
         run: docker compose down
-
   deploy:
     runs-on: ubuntu-22.04
     permissions:
@@ -68,7 +65,6 @@ jobs:
     steps:
       # checkout code
       - uses: actions/checkout@v4
-
      # authenticate with GCP with workload identity provider
      - uses: 'google-github-actions/auth@v2'
        id: auth
@@ -76,22 +72,19 @@ jobs:
        with:
          project_id: 'cs1660-451401' # update with your project ID
          workload_identity_provider: 'projects/1095787621435/locations/global/workloadIdentityPools/github/providers/my-repo' # update with your Workload Identity Pool
-
-#      # configure/login with docker
-#      - name: gcloud Configure Docker
-#        run: gcloud auth configure-docker [YOUR REGION e.g. us-central1]-docker.pkg.dev
-
-#      # setup docker buildx
-#      - name: Setup docker buildx
-#        uses: docker/setup-buildx-action@v3
-#        with:
-#          platforms: linux/amd64,linux/arm64
-
-#      # build and push the image
-#      - name: Build and Push
-#        uses: docker/build-push-action@v6
-#        with:
-#          context: ./
-#          file: ./Dockerfile
-#          push: true
-#          tags: [YOUR REGION e.g. us-central1]-docker.pkg.dev/cc-spring2025/dansc0de/fastapi-server:v2
+     # configure/login with docker
+     - name: gcloud Configure Docker
+       run: gcloud auth configure-docker us-central1-docker.pkg.dev
+     # setup docker buildx
+     - name: Setup docker buildx
+       uses: docker/setup-buildx-action@v3
+       with:
+         platforms: linux/amd64,linux/arm64
+     # build and push the image
+     - name: Build and Push
+       uses: docker/build-push-action@v6
+       with:
+         context: ./
+         file: ./Dockerfile
+         push: true
+         tags: us-central1-docker.pkg.dev/cs1660-451401/fastapi-repo/fastapi-server:v2
