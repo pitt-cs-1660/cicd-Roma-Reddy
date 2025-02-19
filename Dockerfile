@@ -18,10 +18,10 @@ RUN poetry config virtualenvs.create false \
 COPY . .
 
 # Stage 2: Final Application Stage
-FROM python:3.11-buster
+FROM python:3.11-buster AS app
 
 # Set WORKDIR to /app
-WORKDIR /app
+WORKDIR /app 
 
 # Copy the built application from the builder stage
 COPY --from=builder /app /app
