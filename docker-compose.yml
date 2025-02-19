@@ -1,5 +1,7 @@
 services:
   fastapi:
+    build:  # 
+      context: .
     ### Add build context instruction here
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://127.0.0.1:8000/healthz || (echo 'Healthcheck failed' && exit 1)"]
@@ -11,6 +13,13 @@ services:
     ### Add depends postgres here
 
     ### expose ports here
+    environment:  # Add environment variables for database connection
+      DATABASE_URL: postgresql://postgres:postgrespassword@postgres/tasksdb
+    depends_on:  # Ensure PostgreSQL is ready before FastAPI starts
+      postgres:
+        condition: service_healthy
+    ports:  #  Expose FastAPI on port 8000
+      - "8000:8000"
     volumes:
       - ./cc_compose:/app/cc_compose:Z
       - ./static:/app/static:Z
