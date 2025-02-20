@@ -73,25 +73,24 @@ jobs:
         uses: 'google-github-actions/auth@v2'
         id: auth
         with:
-          project_id: 'cs1660project-451418' # update with your project ID
-          workload_identity_provider: 'projects/376210545277/locations/global/workloadIdentityPools/github/providers/my-repo' # update with your Workload Identity Pool
+          project_id: 'cs1660project-451418'  # Update with your project ID
+          workload_identity_provider: 'projects/376210545277/locations/global/workloadIdentityPools/github/providers/my-repo'  # Update with your Workload Identity Pool
 
+      # Configure/login with Docker
+      - name: gcloud Configure Docker
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
-     # configure/login with docker
-     - name: gcloud Configure Docker
-       run: gcloud auth configure-docker us-central1-docker.pkg.dev
+      # Setup Docker Buildx
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
 
-     # setup docker buildx
-     - name: Setup docker buildx
-       uses: docker/setup-buildx-action@v3
-       with:
-         platforms: linux/amd64,linux/arm64
-
-     # build and push the image
-     - name: Build and Push
-       uses: docker/build-push-action@v6
-       with:
-         context: ./
-         file: ./Dockerfile
-         push: true
-         tags: us-central1-docker.pkg.dev/pitt-cs-1660/cicd-Roma-Reddy/fastapi-server:v2
+      # Build and Push the Image
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: us-central1-docker.pkg.dev/pitt-cs-1660/cicd-Roma-Reddy/fastapi-server:v2
