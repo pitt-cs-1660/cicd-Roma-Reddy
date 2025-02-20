@@ -93,4 +93,4 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: us-central1-docker.pkg.dev/pitt-cs-1660/cicd-Roma-Reddy/fastapi-server:v2
+          tags: us-central1-docker.pkg.dev/cs1660project-451418/firstartifact/fastapi-server:v2
