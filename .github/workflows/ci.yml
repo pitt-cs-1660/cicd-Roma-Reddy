@@ -73,8 +73,8 @@ jobs:
         uses: 'google-github-actions/auth@v2'
         id: auth
         with:
-          project_id: 'watertrackercs1660'  # Update with your project ID
-          workload_identity_provider: 'projects/893454359529/locations/global/workloadIdentityPools/github/providers/my-repo'  # Update with your Workload Identity Pool
+          project_id: 'cs1660project-451418'  # Update with your project ID
+          workload_identity_provider: 'projects/376210545277/locations/global/workloadIdentityPools/github/providers/my-repo'  # Update with your Workload Identity Pool
 
       # Configure/login with Docker
       - name: gcloud Configure Docker
